@@ -985,6 +985,28 @@ func (group Group) OpenGroup(name string) Group {
 	return Group{C.GDALGroupOpenGroup(group.cval, c_name, (**C.char)(unsafe.Pointer(nil)))}
 }
 
+func (group Group) GetVectorLayerNames() []string {
+	p := C.GDALGroupGetVectorLayerNames(group.cval, (**C.char)(unsafe.Pointer(nil)))
+	var strings []string
+	q := uintptr(unsafe.Pointer(p))
+	for {
+		p = (**C.char)(unsafe.Pointer(q))
+		if *p == nil {
+			break
+		}
+		strings = append(strings, C.GoString(*p))
+		q += unsafe.Sizeof(q)
+	}
+
+	return strings
+}
+
+func (group Group) OpenVectorLayer(name string) Layer {
+	c_name := C.CString(name)
+	defer C.free(unsafe.Pointer(c_name))
+	return Layer{C.GDALGroupOpenVectorLayer(group.cval, c_name, (**C.char)(unsafe.Pointer(nil)))}
+}
+
 // Get the driver to which this dataset relates
 func (dataset Dataset) Driver() Driver {
 	driver := Driver{C.GDALGetDatasetDriver(dataset.cval)}
