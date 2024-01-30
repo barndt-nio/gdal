@@ -979,6 +979,12 @@ func (group Group) GetGroupNames() []string {
 	return strings
 }
 
+func (group Group) OpenGroup(name string) Group {
+	c_name := C.CString(name)
+	defer C.free(unsafe.Pointer(c_name))
+	return Group{C.GDALGroupOpenGroup(group.cval, c_name, (**C.char)(unsafe.Pointer(nil)))}
+}
+
 // Get the driver to which this dataset relates
 func (dataset Dataset) Driver() Driver {
 	driver := Driver{C.GDALGetDatasetDriver(dataset.cval)}
