@@ -963,6 +963,22 @@ func (group Group) GetFullName() string {
 	return C.GoString(C.GDALGroupGetFullName(group.cval))
 }
 
+func (group Group) GetGroupNames() []string {
+	p := C.GDALGroupGetGroupNames(group.cval, (**C.char)(unsafe.Pointer(nil)))
+	var strings []string
+	q := uintptr(unsafe.Pointer(p))
+	for {
+		p = (**C.char)(unsafe.Pointer(q))
+		if *p == nil {
+			break
+		}
+		strings = append(strings, C.GoString(*p))
+		q += unsafe.Sizeof(q)
+	}
+
+	return strings
+}
+
 // Get the driver to which this dataset relates
 func (dataset Dataset) Driver() Driver {
 	driver := Driver{C.GDALGetDatasetDriver(dataset.cval)}
