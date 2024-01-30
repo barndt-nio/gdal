@@ -946,6 +946,23 @@ func (dataset Dataset) LayerByIndex(index int) Layer {
 	return Layer{layer}
 }
 
+func (dataset Dataset) GetRootGroup() Group {
+	group := C.GDALDatasetGetRootGroup(dataset.cval)
+	return Group{group}
+}
+
+type Group struct {
+	cval C.GDALGroupH
+}
+
+func (group Group) GetName() string {
+	return C.GoString(C.GDALGroupGetName(group.cval))
+}
+
+func (group Group) GetFullName() string {
+	return C.GoString(C.GDALGroupGetFullName(group.cval))
+}
+
 // Get the driver to which this dataset relates
 func (dataset Dataset) Driver() Driver {
 	driver := Driver{C.GDALGetDatasetDriver(dataset.cval)}
