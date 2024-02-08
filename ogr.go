@@ -101,6 +101,14 @@ func GeometryTypeToName(gt GeometryType) string {
 	return C.GoString(C.OGRGeometryTypeToName(C.OGRwkbGeometryType(gt)))
 }
 
+func HasZ(gt GeometryType) bool {
+	return C.OGR_GT_HasZ(C.OGRwkbGeometryType(gt)) != 0
+}
+
+func HasM(gt GeometryType) bool {
+	return C.OGR_GT_HasM(C.OGRwkbGeometryType(gt)) != 0
+}
+
 /* -------------------------------------------------------------------- */
 /*      Envelope functions                                              */
 /* -------------------------------------------------------------------- */
