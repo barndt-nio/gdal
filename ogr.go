@@ -97,6 +97,10 @@ const (
 	GT_GeometryCollection25D = GeometryType(C.wkbGeometryCollection25D)
 )
 
+func GeometryTypeToName(gt GeometryType) string {
+	return C.GoString(C.OGRGeometryTypeToName(C.OGRwkbGeometryType(gt)))
+}
+
 /* -------------------------------------------------------------------- */
 /*      Envelope functions                                              */
 /* -------------------------------------------------------------------- */
