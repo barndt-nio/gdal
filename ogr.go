@@ -1119,6 +1119,12 @@ func (fd FeatureDefinition) FieldCount() int {
 	return int(count)
 }
 
+// Fetch the number of geometry fields in the feature definition
+func (fd FeatureDefinition) GeometryFieldCount() int {
+	count := C.OGR_FD_GetGeomFieldCount(fd.cval)
+	return int(count)
+}
+
 // Fetch the definition of the indicated field
 func (fd FeatureDefinition) FieldDefinition(index int) FieldDefinition {
 	fieldDefn := C.OGR_FD_GetFieldDefn(fd.cval, C.int(index))
