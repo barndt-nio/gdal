@@ -395,6 +395,10 @@ type Dataset struct {
 	cval C.GDALDatasetH
 }
 
+type Group struct {
+	cval C.GDALGroupH
+}
+
 type RasterBand struct {
 	cval C.GDALRasterBandH
 }
@@ -949,10 +953,6 @@ func (dataset Dataset) LayerByIndex(index int) Layer {
 func (dataset Dataset) GetRootGroup() Group {
 	group := C.GDALDatasetGetRootGroup(dataset.cval)
 	return Group{group}
-}
-
-type Group struct {
-	cval C.GDALGroupH
 }
 
 func (group Group) GetName() string {
