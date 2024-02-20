@@ -991,7 +991,7 @@ func (group Group) GetVectorLayerNames() []string {
 	q := uintptr(unsafe.Pointer(p))
 	for {
 		p = (**C.char)(unsafe.Pointer(q))
-		if *p == nil {
+		if p == nil || *p == nil {
 			break
 		}
 		strings = append(strings, C.GoString(*p))
