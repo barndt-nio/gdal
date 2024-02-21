@@ -969,7 +969,7 @@ func (group Group) GetGroupNames() []string {
 	q := uintptr(unsafe.Pointer(p))
 	for {
 		p = (**C.char)(unsafe.Pointer(q))
-		if *p == nil {
+		if p == nil || *p == nil {
 			break
 		}
 		strings = append(strings, C.GoString(*p))
@@ -1020,7 +1020,7 @@ func (dataset Dataset) FileList() []string {
 	q := uintptr(unsafe.Pointer(p))
 	for {
 		p = (**C.char)(unsafe.Pointer(q))
-		if *p == nil {
+		if p == nil || *p == nil {
 			break
 		}
 		strings = append(strings, C.GoString(*p))
@@ -1506,7 +1506,7 @@ func (rasterBand RasterBand) CategoryNames() []string {
 	q := uintptr(unsafe.Pointer(p))
 	for {
 		p = (**C.char)(unsafe.Pointer(q))
-		if *p == nil {
+		if p == nil || *p == nil {
 			break
 		}
 		strings = append(strings, C.GoString(*p))
@@ -2092,7 +2092,7 @@ func VSIReadDirRecursive(filename string) []string {
 	q := uintptr(unsafe.Pointer(p))
 	for {
 		p = (**C.char)(unsafe.Pointer(q))
-		if *p == nil {
+		if p == nil || *p == nil {
 			break
 		}
 		strings = append(strings, C.GoString(*p))
