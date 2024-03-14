@@ -950,6 +950,21 @@ func (dataset Dataset) LayerByIndex(index int) Layer {
 	return Layer{layer}
 }
 
+func (dataset Dataset) CopyLayer(layer Layer, layerName string, options []string) Layer {
+	name := C.CString(layerName)
+	defer C.free(unsafe.Pointer(name))
+
+	length := len(options)
+	opts := make([]*C.char, length+1)
+	for i := 0; i < length; i++ {
+		opts[i] = C.CString(options[i])
+		defer C.free(unsafe.Pointer(opts[i]))
+	}
+	opts[length] = (*C.char)(unsafe.Pointer(nil))
+
+	return Layer{C.GDALDatasetCopyLayer(dataset.cval, layer.cval, name, (**C.char)(unsafe.Pointer(&opts[0])))}
+}
+
 func (dataset Dataset) GetRootGroup() Group {
 	group := C.GDALDatasetGetRootGroup(dataset.cval)
 	return Group{group}
